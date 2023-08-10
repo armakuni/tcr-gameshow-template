@@ -13,6 +13,7 @@ coverage() {
 }
 
 pass() {
+  git commit -am "wip" > /dev/null 2>&1
   GREEN="\e[32m"
   echo -e "$GREEN  /#######   /######   /######   /###### "
   echo -e "$GREEN | ##__  ## /##__  ## /##__  ## /##__  ##"
@@ -56,6 +57,5 @@ then
   exit 2
 fi
 
-git commit -am "wip" > /dev/null 2>&1
 pass
 exit 0
