@@ -7,3 +7,4 @@ def test_hello():
 
 def test_goodbye():
     assert goodbye(1) == "Goodbye World!"
+    assert goodbye(2) == "Goodbye, everyone!"

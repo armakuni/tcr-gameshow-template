@@ -3,4 +3,7 @@ def hello():
 
 
 def goodbye(i: int):
-    return "Goodbye World!"
+    if i == 1:
+        return "Goodbye World!"
+    else:
+        return "Goodbye, everyone!"
