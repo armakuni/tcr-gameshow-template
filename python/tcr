@@ -1,7 +1,14 @@
 #!/bin/bash
 # (poetry run pytest --cov=. --cov-fail-under=100 && git commit -am 'wip') || git reset --hard HEAD
-clear
-sleep 1
+
+countdown() {
+  for i in {5..1}
+  do
+    echo -ne "$i\r"
+    sleep 1
+  done
+}
+
 test() {
   poetry run pytest > /dev/null 2>&1
   return $?
@@ -38,6 +45,8 @@ fail() {
   echo -e "$RED| ##      | ##  | ##|   ## \| ##     \\"
   echo -e "$RED \\##       \\##   \\## \\###### \\########"
 }
+
+countdown
 
 test
 if [ $? -ne 0 ]
