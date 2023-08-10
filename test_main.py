@@ -6,4 +6,4 @@ def test_hello():
 
 
 def test_goodbye():
-    assert goodbye() == "Goodbye World!"
+    assert goodbye(1) == "Goodbye World!"

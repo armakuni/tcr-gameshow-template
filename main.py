@@ -2,5 +2,5 @@ def hello():
     return "Hello World!"
 
 
-def goodbye():
+def goodbye(i: int):
     return "Goodbye World!"
