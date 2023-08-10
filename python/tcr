@@ -4,7 +4,7 @@ clear
 countdown() {
   for i in {5..1}
   do
-    echo -ne "$i\r"
+    echo -ne "$i.."
     sleep 1
   done
 }
