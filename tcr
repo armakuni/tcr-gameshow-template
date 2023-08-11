@@ -29,7 +29,7 @@ coverage() {
 
 pass() {
   git commit -am "wip" > /dev/null 2>&1
-  GREEN="\e[32m"
+  GREEN="\033[01;32m"
   echo -e "$GREEN  /#######   /######   /######   /###### "
   echo -e "$GREEN | ##__  ## /##__  ## /##__  ## /##__  ##"
   echo -e "$GREEN | ##  \ ##| ##  \ ##| ##  \__/| ##  \__/"
