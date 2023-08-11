@@ -18,12 +18,11 @@ countdown() {
 }
 
 test() {
-  echo "herp"
-  #(cd $TCR_LANG && ./test) > /dev/null 2>&1
+  (cd $TCR_LANG && ./test) > /dev/null 2>&1
 }
 
 coverage() {
-  (cd $TCR_LANG && ./coverage)# > /dev/null 2>&1
+  (cd $TCR_LANG && ./coverage) > /dev/null 2>&1
 }
 
 pass() {
