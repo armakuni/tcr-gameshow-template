@@ -25,3 +25,16 @@
     chmod +x test
     chmod +x coverage
     ```
+
+1. **Commit your changes (VERY IMPORTANT FOR THE NEXT STEP)**
+
+1. Test that it works! Run `tcr` in the root of the repository
+
+    ```bash
+    $ export TCR_LANG=[your language]
+    $ tcr
+    ```
+
+    Write a failing test and test it again, and then write some untested code and test it again to check if the coverage part is working.
+
+    The result we want to see is that `tcr` will wipe the changes if there is a failing test or untested code (i.e. coverage is not 100%)
