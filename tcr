@@ -1,0 +1,82 @@
+#!/bin/bash
+
+if [ -z "$TCR_LANG" ]; then
+  echo "You need to set the language you're using"
+  echo "Example: export TCR_LANG=python"
+  echo "Example: export TCR_LANG=typescript"
+  exit 1
+fi
+
+clear
+countdown() {
+  for i in {3..1}
+  do
+    echo -ne "$i.."
+    sleep 1
+  done
+  clear
+}
+
+test() {
+  (cd $TCR_LANG && ./test)# > /dev/null 2>&1
+}
+
+coverage() {
+  (cd $TCR_LANG && ./coverage) > /dev/null 2>&1
+}
+
+pass() {
+  git commit -am "wip" > /dev/null 2>&1
+  GREEN="\e[32m"
+  echo -e "$GREEN  /#######   /######   /######   /###### "
+  echo -e "$GREEN | ##__  ## /##__  ## /##__  ## /##__  ##"
+  echo -e "$GREEN | ##  \ ##| ##  \ ##| ##  \__/| ##  \__/"
+  echo -e "$GREEN | #######/| ########|  ###### |  ###### "
+  echo -e "$GREEN | ##____/ | ##__  ## \____  ## \____  ##"
+  echo -e "$GREEN | ##      | ##  | ## /##  \ ## /##  \ ##"
+  echo -e "$GREEN | ##      | ##  | ##|  ######/|  ######/"
+  echo -e "$GREEN |__/      |__/  |__/ \______/  \______/ "
+}
+
+fail() {
+  # git reset --hard HEAD > /dev/null 2>&1
+  RED="\e[31m"
+  echo -e "$RED ________   ______   ______  __       "
+  echo -e "$RED|        \ /      \ |      \|  \      "
+  echo -e "$RED| ########|  ######\ \######| ##      "
+  echo -e "$RED| ##__    | ##__| ##  | ##  | ##      "
+  echo -e "$RED| ##  \   | ##    ##  | ##  | ##      "
+  echo -e "$RED| #####   | ########  | ##  | ##      "
+  echo -e "$RED| ##      | ##  | ## _| ##_ | ##_____ "
+  echo -e "$RED| ##      | ##  | ##|   ## \| ##     \\"
+  echo -e "$RED \\##       \\##   \\## \\###### \\########"
+}
+
+
+test
+test_result=$?
+
+coverage
+coverage_result=$?
+
+countdown
+
+if [ $test_result -ne 0 ]
+then
+  fail
+  echo
+  echo
+  echo "The tests failed!"
+  exit 1
+fi
+
+if [ $coverage_result -ne 0 ]
+then
+  fail
+  echo "Coverage failed!"
+  exit 2
+fi
+
+
+pass
+exit 0

@@ -1,0 +1,10 @@
+!#/bin/bash
+
+export SCORE=1
+
+while true; do
+  clear
+  echo "CURRENT SCORE: $SCORE"
+  read SCORE_CHANGE
+  SCORE=$(($SCORE + $SCORE_CHANGE))
+done

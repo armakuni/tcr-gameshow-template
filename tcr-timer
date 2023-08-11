@@ -1,0 +1,28 @@
+#!/bin/bash
+
+clear
+
+revert() {
+  git reset --hard HEAD
+}
+
+# Set the countdown duration in seconds
+countdown_duration=300
+
+# Function to display the countdown
+display_countdown() {
+    local remaining_time=$1
+    while [ $remaining_time -gt 0 ]; do
+        echo "Time to revert: $remaining_time seconds\r"
+        sleep 1
+        ((remaining_time--))
+    done
+    revert
+    clear
+}
+
+# Start the countdown
+while true; do
+  display_countdown $countdown_duration
+  sleep 5
+done
