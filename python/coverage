@@ -1,2 +1,2 @@
 #!/bin/bash
-poetry run coverage report main.py
+poetry run coverage report --fail-under=100 main.py
