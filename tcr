@@ -42,7 +42,7 @@ pass() {
 
 fail() {
   git reset --hard HEAD > /dev/null 2>&1
-  RED="\e[31m"
+  RED="\033[31m"
   echo -e "$RED ________   ______   ______  __       "
   echo -e "$RED|        \ /      \ |      \|  \      "
   echo -e "$RED| ########|  ######\ \######| ##      "
