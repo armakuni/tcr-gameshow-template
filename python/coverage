@@ -1,2 +1,2 @@
 #!/bin/bash
-poetry run coverage report --fail-under=100 main.py
+.venv/bin/python -m coverage report --fail-under=100 main.py
