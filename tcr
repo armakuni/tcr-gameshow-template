@@ -1,6 +1,4 @@
 #!/bin/bash
-echo $TERM
-
 
 if [ -z "$TCR_LANG" ]; then
   echo "You need to set the language you're using"
@@ -11,10 +9,10 @@ fi
 
 clear
 countdown() {
-  for i in {3..1}
-  do
-    echo -ne "$i.."
-    sleep 1
+  echo -ne "Running Tests "
+  for i in {5..1}; do
+    echo -ne "."
+    sleep .5
   done
   clear
 }
@@ -27,8 +25,12 @@ coverage() {
   (cd $TCR_LANG && ./coverage) > /dev/null 2>&1
 }
 
-pass() {
+commit() {
   git commit -am "wip" > /dev/null 2>&1
+}
+
+pass() {
+  commit
   GREEN="\033[01;32m"
   echo -e "$GREEN  /#######   /######   /######   /###### "
   echo -e "$GREEN | ##__  ## /##__  ## /##__  ## /##__  ##"
@@ -38,10 +40,16 @@ pass() {
   echo -e "$GREEN | ##      | ##  | ## /##  \ ## /##  \ ##"
   echo -e "$GREEN | ##      | ##  | ##|  ######/|  ######/"
   echo -e "$GREEN |__/      |__/  |__/ \______/  \______/ "
+  echo
+  echo
+}
+
+reset() {
+  git reset --hard HEAD > /dev/null 2>&1
 }
 
 fail() {
-  git reset --hard HEAD > /dev/null 2>&1
+  reset
   RED="\033[31m"
   echo -e "$RED ________   ______   ______  __       "
   echo -e "$RED|        \ /      \ |      \|  \      "
@@ -52,33 +60,49 @@ fail() {
   echo -e "$RED| ##      | ##  | ## _| ##_ | ##_____ "
   echo -e "$RED| ##      | ##  | ##|   ## \| ##     \\"
   echo -e "$RED \\##       \\##   \\## \\###### \\########"
+  echo
+  echo
 }
 
+interruptLoop() {
+  countdown=120
+  until read -s -n 1 -t 1; do
+    if [ $countdown -eq 0 ]; then break; fi
+    prefix="\033[0;34m "
+    if [ $countdown -lt 16 ]; then prefix="\a\033[1;35m "; fi
+    echo -ne "$prefix Time til next TCR $countdown\033[0K\r"
+    ((countdown = countdown - 1))
 
-test
-test_result=$?
+  done
+}
 
-coverage
-coverage_result=$?
+tcr() {
+  test
+  test_result=$?
 
-countdown
+  coverage
+  coverage_result=$?
 
-if [ $test_result -ne 0 ]
-then
-  fail
-  echo
-  echo
-  echo "The tests failed!"
-  exit 1
-fi
+  countdown
 
-if [ $coverage_result -ne 0 ]
-then
-  fail
-  echo "Coverage failed!"
-  exit 2
-fi
+  if [ $test_result -ne 0 ]; then
+    fail
+    echo "The tests failed!"
+    return
+  fi
 
+  if [ $coverage_result -ne 0 ]; then
+    fail
+    echo "Coverage failed!"
+    return
+  fi
 
-pass
-exit 0
+  pass
+}
+
+while true;
+do
+  interruptLoop
+  clear
+  tcr
+done
